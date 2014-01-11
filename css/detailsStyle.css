@@ -1,0 +1,55 @@
+#detailsContainer {
+  display:table;
+  width: 90%;
+  position:relative;
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.detailsTop {
+  display:table;
+  width:100%;
+  position: relative;
+}
+
+
+.details {
+  float: left;
+  box-sizing: border-box;
+  width: 60%;
+}
+
+.detailsName {
+  margin: 2px;
+  font-size: 1.3em;
+  color: #34495e;
+  font-weight: bold;
+  -webkit-user-select: text;
+}
+
+.detailsImage {
+  box-sizing: border-box;
+  width: 120px;
+  height: 120px;
+  border: 1px solid blue;
+  float: right;
+}
+
+.detailsBottom {
+  width: 100%;
+  display: table;
+  margin-top: 10px;
+  position: relative;
+  clear: right;
+}
+
+.detailsDescription {
+  float: left;
+  width: 50%;
+}
+
+.detailsTags {
+  float: right;
+  text-align: right;
+  width: 120px;
+} 

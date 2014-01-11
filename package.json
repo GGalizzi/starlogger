@@ -1,0 +1,13 @@
+{
+  "name": "Starlogger",
+  "version": "0.1",
+  "main": "index.html",
+  "window": {
+    "toolbar": true,
+    "frame": false,
+    "position": "center",
+    "width": 560,
+    "height": 531,
+    "resizable": false
+  }
+}

@@ -1,0 +1,16 @@
+<div id="detailsContainer">
+  <div class="detailsTop">
+    <div class="details">
+      <div class="detailsName">{{planet.name}}</div>
+      <div class="detailBiome">{{planet.biome}}</div>
+      <div class="detailsCoords">X: {{planet.coords[0]}}&#09;Y: {{planet.coords[1]}}</div>
+    </div>
+    <div class="detailsImage"></div>
+  </div>
+  <div class="detailsBottom">
+    <div class="detailsDescription">{{planet.description}}</div>
+    <div class="detailsTags">Tags here</div>
+  </div>
+  <a href="#/edit/{{planet.name}}">Edit</a>
+  <button ng-click="deletePlanet()">Delete</a>
+</div>

@@ -1,0 +1,17 @@
+<form name="planetForm">
+  <label>Name</label>
+  <input type="text" name="name" ng-model="newPlanet.name" required>
+  <span ng-show="planetForm.name.$error.required" class="help-inline">
+    Required
+  </span>
+
+  <label>Biome</label>
+  <input type="text" name="biome" ng-model="newPlanet.biome">
+
+  <label>Description</label>
+  <input type="text" name="description" ng-model="newPlanet.description">
+
+  <a href="#/">Cancel</a>
+  <button ng-click="save()" ng-disabled="planetForm.$invalid">Save</button>
+
+</form>
