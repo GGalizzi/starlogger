@@ -1,16 +1,13 @@
 <span ng-repeat="planet in planets" ng-hide="{{planet.sector}}Filter">
   <div class="planetContainer">
     <div class="planetHeader">
-      <span class="planetName">{{planet.name}}</span>
+      <a href="#/details/{{planet.name}}" class="planetName">{{planet.name}}</a>
       <span class="planetCoords">x;y</span>
     </div>
     <div class="planetDescription">
       {{planet.description}}
     </div>
 
-    <div class="planetLinks">
-      <a href="#/details/{{planet.name}}">Details</a>
-    </div>
   </span>
   </div>
 </span>

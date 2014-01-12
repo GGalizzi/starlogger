@@ -1,3 +1,10 @@
+
+var fs = require('fs');
+function saveToJson(planets) {
+  var jfile = JSON.stringify(planets);
+  fs.writeFileSync("planets.json", jfile);
+}
+
 var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 .config(function($routeProvider) {
@@ -27,21 +34,32 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     });
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, $http) {
+.controller('planetListCtrl', function($scope, $localStorage) {
 
-  var fs = require('fs');
   // copy local storage to the $storage service.
   $scope.$storage = $localStorage;
+  /*
   fs.readFile("planets.json", function(err, data) {
     if(err) {
-      alert("ERROR");
+      console.error("Error reading file planets.json");
     }
-    console.log(JSON.parse(data));
-    $scope.planets = JSON.parse(data);
+    else if (data == "undefined") {
+      console.debug("Data from planets.json is undefined");
+      $scope.planets={};
+    }
+    else {
+      console.log("Data loaded from planets.json");
+      $scope.$storage.planetList = JSON.parse(data);
+    }
   });
+  */
+
+  $scope.$storage.planetList = JSON.parse(fs.readFileSync('planets.json'));
+
 
   // Check if the storage.planetList is empty or unexistant.
   // If so, make it an empty array.
+  
   
   if ($scope.$storage.planetList == 0 || $scope.$storage.planetList == undefined) {
     console.debug("planetList should be empty");
@@ -52,7 +70,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     console.debug("planetList seems to already have content");
     $scope.planets = $scope.$storage.planetList
   }
-  
 
   $scope.deleteAll = function() {
     $localStorage.$reset();
@@ -61,14 +78,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 
   // Save the modifications donde to planets into the storage.
-  //$scope.$storage.planetList = $scope.planets;
-  var jfile = JSON.stringify($scope.planets);
-
-  fs.writeFile("planets.json", jfile, function(err) {
-    if(err) {
-      alert("error");
-    }
-  });
+  $scope.$storage.planetList = $scope.planets;
+  saveToJson($scope.planets);
 })
 
 .controller('planetDetailsCtrl', function($scope, $localStorage, $routeParams, $location) {
@@ -79,7 +90,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     var planet = $scope.planet;
     console.debug("deletePlanet("+planet.name+")");
     delete $scope.$storage.planetList[$routeParams.planetName];
-    $location.path('/');
+    saveToJson($scope.$storage.planetList);
+    $location.path('#/');
   }
 })
 
@@ -95,7 +107,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
     $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
     delete $scope.$storage.planetList[$routeParams.planetName];
-    $location.path('/details/'+$scope.planet.name);
+    saveToJson($scope.$storage.planetList);
+    $location.path('#/details/'+$scope.planet.name);
   }
 })
 
@@ -106,8 +119,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.newPlanet.sector =
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
     $scope.$storage.planetList[$scope.newPlanet.name] = $scope.newPlanet;
+    saveToJson($scope.$storage.planetList);
 
-    $location.path('/');
+    $location.path('#/');
   }
 
 })
