@@ -1,5 +1,7 @@
 
 var fs = require('fs');
+var gui = require('nw.gui');
+var win = gui.Window.get();
 function saveToJson(planets) {
   var jfile = JSON.stringify(planets);
   fs.writeFileSync("planets.json", jfile);
@@ -126,6 +128,20 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 })
 
+.controller('titlebarCtrl', function($scope) {
+  $scope.closeApp = function() {
+    win.close(true);
+  }
+
+  $scope.minimizeApp = function() {
+    win.minimize();
+  }
+
+  $scope.debugApp = function() {
+    win.showDevTools();
+  }
+})
+
 .directive('slPlanets', function() {
   return {
     replace: true,
@@ -146,7 +162,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   return {
     replace: true,
     restrict: 'E',
-    template: '<div id="titlebar"><a href="#/" id="title">Starlogger</a> <div onClick="window.close()" id="close">x</div></div>'
+    templateUrl: 'templates/sl-titlebar.html'
   };
 })
 

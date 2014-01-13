@@ -60,7 +60,6 @@ a {
   box-sizing: border-box;
   float: right;
   height:20px;
-  width:20px;
   cursor: pointer;
   -webkit-app-region: no-drag;
   -webkit-user-select: none;
