@@ -1,9 +1,16 @@
 <form name="planetForm">
   <label>Name</label>
-  <input type="text" name="name" ng-model="newPlanet.name" required>
+  <input type="text" name="name" ng-model="newPlanet.name">
+  <!--
   <span ng-show="planetForm.name.$error.required" class="help-inline">
     Required
   </span>
+  -->
+
+  <label>X</label>
+  <input type="text" name="x" ng-model="newPlanet.x">
+  <label>Y</label>
+  <input type="text" name="y" ng-model="newPlanet.y">
 
   <label>Biome</label>
   <input type="text" name="biome" ng-model="newPlanet.biome">

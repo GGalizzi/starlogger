@@ -103,12 +103,17 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.newPlanet = planet;
 
   $scope.save = function() {
+    console.log("Saving sector name...");
     $scope.newPlanet.sector =
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
+    console.log("Sector saved as:"+$scope.newPlanet.sector);
     $scope.planet = $scope.newPlanet;
 
-    $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
     delete $scope.$storage.planetList[$routeParams.planetName];
+
+    console.log("Saving to storage...");
+    $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
+    console.log("Saved to storage:\n"+$scope.$storage.planetList[$scope.planet.name]);
     saveToJson($scope.$storage.planetList);
     $location.path('#/details/'+$scope.planet.name);
   }

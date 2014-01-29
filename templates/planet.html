@@ -1,8 +1,8 @@
 <span ng-repeat="planet in planets" ng-hide="{{planet.sector}}Filter">
-  <div class="planetContainer">
+  <div class="planetContainer"  ng-class-odd="'odd'">
     <div class="planetHeader">
       <a href="#/details/{{planet.name}}" class="planetName">{{planet.name}}</a>
-      <span class="planetCoords">x;y</span>
+      <span class="planetCoords">X: {{planet.x}}; Y: {{planet.y}}</span>
     </div>
     <div class="planetDescription">
       {{planet.description}}

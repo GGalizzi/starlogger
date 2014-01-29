@@ -11,7 +11,6 @@ body {
   padding: 0px;
   overflow: hidden;
   font-size: 12px;
-  background-color:#ecf0f1;
 }
 
 input[type=submit] {
@@ -118,6 +117,10 @@ a {
   padding: 5px;
   padding-bottom: 15px;
   -webkit-user-select: none;
+}
+
+.odd {
+  background-color: white;
 }
 
 
