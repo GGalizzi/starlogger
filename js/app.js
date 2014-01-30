@@ -36,7 +36,31 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     });
 })
 
-.controller('planetListCtrl', function($scope, $localStorage) {
+.service('tagList', function() {
+  
+
+  var t;
+  fs.readFile('tags', 'utf8', function(err, data) {
+    if (err) throw err;
+    console.debug(data.split(','));
+    t = data.split(',');
+    console.debug(t);
+  });
+
+  console.debug(t);
+  this.getTags = function() {
+    console.debug(t);
+    return t;
+  }
+
+})
+
+.controller('sidebarCtrl', function($scope, tagList) {
+  $scope.tags = tagList.getTags();
+})
+
+.controller('planetListCtrl', function($scope, $localStorage, tagList) {
+
 
   // copy local storage to the $storage service.
   $scope.$storage = $localStorage;
@@ -87,6 +111,12 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 .controller('planetDetailsCtrl', function($scope, $localStorage, $routeParams, $location) {
   $scope.$storage = $localStorage;
   $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
+
+  if($scope.planet.tags && !($scope.planet.tags instanceof Array)) {
+    $scope.planet.tags = $scope.planet.tags.split(/[ ,]+/);
+  } else if (!($scope.planet.tags instanceof Array)) {
+    $scope.planet.tags = ["No tags set"];
+  }
 
   $scope.deletePlanet = function() {
     var planet = $scope.planet;

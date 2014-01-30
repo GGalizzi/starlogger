@@ -27,12 +27,17 @@
   -webkit-user-select: text;
 }
 
+.detailsBiome {
+  margin: 12px 0px;
+}
+
 .detailsImage {
   box-sizing: border-box;
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   border: 1px solid blue;
   float: right;
+  visibility: hidden;
 }
 
 .detailsBottom {
@@ -45,7 +50,9 @@
 
 .detailsDescription {
   float: left;
-  width: 50%;
+  width: 60%;
+  height: 324px;
+  overflow: auto;
 }
 
 .detailsTags {

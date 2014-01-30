@@ -2,14 +2,18 @@
   <div class="detailsTop">
     <div class="details">
       <div class="detailsName">{{planet.name}}</div>
-      <div class="detailBiome">{{planet.biome}}</div>
+      <div class="detailsBiome">{{planet.biome}}</div>
       <div class="detailsCoords">X: {{planet.x}}&#09;Y: {{planet.y}}</div>
     </div>
     <div class="detailsImage"></div>
   </div>
   <div class="detailsBottom">
     <div class="detailsDescription">{{planet.description}}</div>
-    <div class="detailsTags">Tags here</div>
+    <div class="detailsTags">
+      <ul>
+        <li ng-repeat="tag in planet.tags track by $index">{{tag}}</li>
+      </ul>
+    </div>
   </div>
   <a href="#/edit/{{planet.name}}">Edit</a>
   <button ng-click="deletePlanet()">Delete</a>
