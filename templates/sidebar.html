@@ -7,6 +7,6 @@
   <input type="checkbox" class="sectorFilter" id="xFilter" ng-model="xFilter" checked><label for="xFilter"></label>
 
   <ul>
-    <li ng-repeat="t in tags">{{t}}</li>
+    <li ng-repeat="t in tags track by $index">{{t}}</li>
   </ul>
 </div>

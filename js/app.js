@@ -38,20 +38,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 .service('tagList', function() {
   
-
-  var t;
-  fs.readFile('tags', 'utf8', function(err, data) {
-    if (err) throw err;
-    console.debug(data.split(','));
-    t = data.split(',');
-    console.debug(t);
-  });
-
-  console.debug(t);
   this.getTags = function() {
-    console.debug(t);
-    return t;
-  }
+    this.t = fs.readFileSync('tags', 'utf8');
+    console.debug(this.t);
+    return this.t.split(',');
+  };
 
 })
 
