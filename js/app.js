@@ -40,6 +40,20 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     });
 })
 
+.filter('withName', function() {
+  return function(input, query) {
+    if(!query) return input;
+    var result= [];
+
+    angular.forEach(input, function(planet) {
+      if(planet.name.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+        result.push(planet);
+      }
+    });
+    return result;
+  };
+})
+
 .service('tagList', function() {
   
   this.getTags = function() {
@@ -62,32 +76,22 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 })
 
+.factory('search', function() {
+  return {sharedSearch: {data: null} }
+})
+
 .controller('sidebarCtrl', function($scope, tagList) {
   $scope.tags = tagList.getTags();
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, tagList) {
+.controller('planetListCtrl', function($scope, $localStorage, tagList, search) {
 
 
   // copy local storage to the $storage service.
   $scope.$storage = $localStorage;
-  /*
-  fs.readFile("planets.json", function(err, data) {
-    if(err) {
-      console.error("Error reading file planets.json");
-    }
-    else if (data == "undefined") {
-      console.debug("Data from planets.json is undefined");
-      $scope.planets={};
-    }
-    else {
-      console.log("Data loaded from planets.json");
-      $scope.$storage.planetList = JSON.parse(data);
-    }
-  });
-  */
 
   $scope.$storage.planetList = JSON.parse(fs.readFileSync('planets.json'));
+  $scope.search = search.sharedSearch;
 
 
   // Check if the storage.planetList is empty or unexistant.
@@ -172,7 +176,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 })
 
-.controller('titlebarCtrl', function($scope) {
+.controller('titlebarCtrl', function($scope, search) {
+  $scope.search = search.sharedSearch;
+
   $scope.closeApp = function() {
     win.close(true);
   }
