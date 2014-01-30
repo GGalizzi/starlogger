@@ -56,29 +56,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
-
-/*
-.factory('tags', function() {
-  var t;
-  t = fs.readFileSync('tags', 'utf8');
-  t = t.replace(/\n/, '');
-  t = t.split(',');
-  return {tagList: {list: t} };
-})
-
-.service('tagList', function(tags) {
-
-  this.addTags = function(newTags) {
-    this.t = tags.tagList.list;
-    this.newT = this.t.concat(newTags);
-    this.newT = this.newT.filter(onlyUnique);
-    console.log("Writing to tags file...\n"+this.newT);
-    fs.writeFileSync('tags', this.newT);
-    tags.tagList.list = this.newT;
-  };
-
-})
-*/
 .factory('search', function() {
   return {sharedSearch: {data: null} }
 })
