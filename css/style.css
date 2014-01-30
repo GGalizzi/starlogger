@@ -22,7 +22,8 @@ input[type=text] {
   background-color: white;
   border: 1px solid #2980b9;
   display: inline-block;
-  width: 50px;
+  width: 100px;
+  color: #2980b9;
 }
 
 a {
@@ -62,7 +63,7 @@ a {
   cursor: pointer;
 }
 
-#close {
+.titleBarButton {
   box-sizing: border-box;
   float: right;
   height:20px;

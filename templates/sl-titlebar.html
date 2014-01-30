@@ -1,7 +1,7 @@
 <div ng-controller="titlebarCtrl" id="titlebar">
   <a href="#/" id="title">Starlogger</a>
-  <input type="text" class="inputSearch" ng-model="search.data" placeholder="Search">
-  <span ng-click="closeApp()" id="close">x</span>
-  <span ng-click="minimizeApp()" id="close">-</span>
-  <span ng-click="debugApp()" id="close">Debugger</span>
+  <span ng-click="closeApp()" class="titleBarButton">x</span>
+  <span ng-click="minimizeApp()" class="titleBarButton">-</span>
+  <span ng-click="debugApp()" class="titleBarButton">Debugger</span>
+  <input type="text" class="titleBarButton" ng-model="search.data" placeholder="Search">
 </div>
