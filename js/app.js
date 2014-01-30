@@ -7,6 +7,10 @@ function saveToJson(planets) {
   fs.writeFileSync("planets.json", jfile);
 }
 
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
 var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 .config(function($routeProvider) {
@@ -40,8 +44,20 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   
   this.getTags = function() {
     this.t = fs.readFileSync('tags', 'utf8');
-    console.debug(this.t);
+    this.t = this.t.replace(/\n/, '');
     return this.t.split(',');
+  };
+
+  this.addTags = function(tags) {
+    this.t = fs.readFileSync('tags', 'utf8');
+    this.t = this.t.replace(/\n/, '');
+    this.t = this.t.split(',');
+    console.debug(this.t);
+    this.newT = this.t.concat(tags);
+    console.debug("newT: "+ this.newT);
+    this.newT = this.newT.filter(onlyUnique);
+    console.log("Writing to tags file...\n"+this.newT);
+    fs.writeFileSync('tags', this.newT);
   };
 
 })
@@ -118,7 +134,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 })
 
-.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location) {
+.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location, tagList) {
   $scope.$storage = $localStorage;
   var planet = $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
   $scope.newPlanet = planet;
@@ -137,6 +153,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     console.log("Saved to storage:\n"+$scope.$storage.planetList[$scope.planet.name]);
     saveToJson($scope.$storage.planetList);
     $location.path('#/details/'+$scope.planet.name);
+
+    tagList.addTags($scope.planet.tags);
   }
 })
 
