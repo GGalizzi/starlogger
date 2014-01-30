@@ -31,7 +31,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     })
 
     .when('/add-planet', {
-      controller: 'planetAddCtrl',
+      controller: 'planetEditCtrl',
       templateUrl: 'planetForm.html'
     })
 
@@ -46,7 +46,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     var result= [];
 
     angular.forEach(input, function(planet) {
-      if(planet.name.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+      if(planet.name.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
+         planet.description.toLowerCase().indexOf(query.toLowerCase()) != -1) {
         result.push(planet);
       }
     });
@@ -54,24 +55,25 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
-.service('tagList', function() {
-  
-  this.getTags = function() {
-    this.t = fs.readFileSync('tags', 'utf8');
-    this.t = this.t.replace(/\n/, '');
-    return this.t.split(',');
-  };
 
-  this.addTags = function(tags) {
-    this.t = fs.readFileSync('tags', 'utf8');
-    this.t = this.t.replace(/\n/, '');
-    this.t = this.t.split(',');
-    console.debug(this.t);
-    this.newT = this.t.concat(tags);
-    console.debug("newT: "+ this.newT);
+
+.factory('tags', function() {
+  var t;
+  t = fs.readFileSync('tags', 'utf8');
+  t = t.replace(/\n/, '');
+  t = t.split(',');
+  return {tagList: {list: t} };
+})
+
+.service('tagList', function(tags) {
+
+  this.addTags = function(newTags) {
+    this.t = tags.tagList.list;
+    this.newT = this.t.concat(newTags);
     this.newT = this.newT.filter(onlyUnique);
     console.log("Writing to tags file...\n"+this.newT);
     fs.writeFileSync('tags', this.newT);
+    tags.tagList.list = this.newT;
   };
 
 })
@@ -80,11 +82,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   return {sharedSearch: {data: null} }
 })
 
-.controller('sidebarCtrl', function($scope, tagList) {
-  $scope.tags = tagList.getTags();
+.controller('sidebarCtrl', function($scope, tags) {
+  $scope.tags = tags.tagList
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, tagList, search) {
+.controller('planetListCtrl', function($scope, $localStorage, search) {
 
 
   // copy local storage to the $storage service.
@@ -99,12 +101,10 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   
   
   if ($scope.$storage.planetList == 0 || $scope.$storage.planetList == undefined) {
-    console.debug("planetList should be empty");
     $scope.planets = $scope.$storage.planetList = {};
   }
   // If not, assign it to the planets variable.
   else {
-    console.debug("planetList seems to already have content");
     $scope.planets = $scope.$storage.planetList
   }
 
@@ -138,7 +138,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 })
 
-.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location, tagList) {
+.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location, tagList, tags) {
   $scope.$storage = $localStorage;
   var planet = $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
   $scope.newPlanet = planet;
@@ -156,9 +156,13 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
     console.log("Saved to storage:\n"+$scope.$storage.planetList[$scope.planet.name]);
     saveToJson($scope.$storage.planetList);
+    console.debug("newPlanet.tags: "+$scope.newPlanet.tags);
+    if($scope.newPlanet.tags instanceof Array) {
+      $scope.newPlanet.tags = $scope.newPlanet.tags.join();
+    }
+    tagList.addTags($scope.newPlanet.tags.toLowerCase().split(/,\s|,/));
     $location.path('#/details/'+$scope.planet.name);
 
-    tagList.addTags($scope.planet.tags);
   }
 })
 
