@@ -47,7 +47,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
     angular.forEach(input, function(planet) {
       if(planet.name.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
-         planet.description.toLowerCase().indexOf(query.toLowerCase()) != -1) {
+         planet.description.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
+         planet.tags.indexOf(query.toLowerCase()) != -1) {
         result.push(planet);
       }
     });
@@ -56,7 +57,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 })
 
 
-
+/*
 .factory('tags', function() {
   var t;
   t = fs.readFileSync('tags', 'utf8');
@@ -77,13 +78,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 
 })
-
+*/
 .factory('search', function() {
   return {sharedSearch: {data: null} }
-})
-
-.controller('sidebarCtrl', function($scope, tags) {
-  $scope.tags = tags.tagList
 })
 
 .controller('planetListCtrl', function($scope, $localStorage, search) {
@@ -138,7 +135,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 })
 
-.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location, tagList, tags) {
+.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location) {
   $scope.$storage = $localStorage;
   var planet = $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
   $scope.newPlanet = planet;
@@ -160,7 +157,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     if($scope.newPlanet.tags instanceof Array) {
       $scope.newPlanet.tags = $scope.newPlanet.tags.join();
     }
-    tagList.addTags($scope.newPlanet.tags.toLowerCase().split(/,\s|,/));
     $location.path('#/details/'+$scope.planet.name);
 
   }
