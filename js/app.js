@@ -134,7 +134,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     if($scope.newPlanet.tags instanceof Array) {
       $scope.newPlanet.tags = $scope.newPlanet.tags.join();
     }
-    $location.path('#/details/'+$scope.planet.name);
+    console.log('#/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
+    $location.path('/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
 
   }
 })
