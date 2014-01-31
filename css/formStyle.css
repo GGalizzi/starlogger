@@ -5,3 +5,7 @@ form {
 input {
   display: block;
 }
+
+.mainForm {
+  margin: 9px 0px;
+}

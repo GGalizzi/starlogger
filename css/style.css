@@ -30,6 +30,21 @@ a {
   text-decoration: none;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.button {
+  background-color: #2980b9;
+  color: white;
+  padding: 4px;
+  margin-right: 9px;
+  cursor: pointer;
+  -webkit-user-select:none;
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }

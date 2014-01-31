@@ -11,10 +11,10 @@
     <div class="detailsDescription">{{planet.description}}</div>
     <div class="detailsTags">
       <ul>
-        <li ng-repeat="tag in planet.tags track by $index">{{tag}}</li>
+        <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="searchFor(tag)">{{tag}}</li>
       </ul>
     </div>
   </div>
-  <a href="#/edit/{{planet.name}}">Edit</a>
-  <a href="#" ng-click="deletePlanet()">Delete</a>
+  <a class="button" href="#/edit/{{planet.name}}">Edit</a>
+  <a class="button" href="#" ng-click="deletePlanet()">Delete</a>
 </div>
