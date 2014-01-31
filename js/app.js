@@ -48,7 +48,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     angular.forEach(input, function(planet) {
       if(planet.name.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
          planet.description.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
-         planet.tags.indexOf(query.toLowerCase()) != -1) {
+         planet.tags.join().toLowerCase().indexOf(query.toLowerCase()) != -1) {
         result.push(planet);
       }
     });

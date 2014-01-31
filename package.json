@@ -5,6 +5,7 @@
   "window": {
     "toolbar": false,
     "frame": false,
+    "icon": "icon.png",
     "position": "center",
     "width": 560,
     "height": 531,
