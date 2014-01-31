@@ -97,11 +97,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.$storage = $localStorage;
   $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
 
-  if($scope.planet.tags && !($scope.planet.tags instanceof Array)) {
-    $scope.planet.tags = $scope.planet.tags.split(/[ ,]+/);
-  } else if (!($scope.planet.tags instanceof Array)) {
-    $scope.planet.tags = [];
-  }
 
   $scope.deletePlanet = function() {
     var planet = $scope.planet;
@@ -127,6 +122,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.newPlanet.sector =
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
     console.log("Sector saved as:"+$scope.newPlanet.sector);
+    if(!$scope.newPlanet instanceof Array) {
+      $scope.newPlanet.tags = $scope.newPlanet.tags.split(/,| ,|, | , /);
+    }
     $scope.planet = $scope.newPlanet;
 
     delete $scope.$storage.planetList[$routeParams.planetName];
@@ -135,28 +133,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
     console.log("Saved to storage:\n"+$scope.$storage.planetList[$scope.planet.name]);
     saveToJson($scope.$storage.planetList);
-    console.debug("newPlanet.tags: "+$scope.newPlanet.tags);
-    if($scope.newPlanet.tags instanceof Array) {
-      $scope.newPlanet.tags = $scope.newPlanet.tags.join();
-    }
     $location.path('/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
 
   }
 })
 
-.controller('planetAddCtrl', function($scope, $localStorage, $location) {
-  $scope.$storage = $localStorage;
-
-  $scope.save = function() {
-    $scope.newPlanet.sector =
-      $scope.newPlanet.name.split(" ")[0].toLowerCase();
-    $scope.$storage.planetList[$scope.newPlanet.name] = $scope.newPlanet;
-    saveToJson($scope.$storage.planetList);
-
-    $location.path('#/');
-  }
-
-})
 
 .controller('titlebarCtrl', function($scope, search) {
   $scope.search = search.sharedSearch;

@@ -21,9 +21,18 @@ input[type=submit] {
 input[type=text] {
   background-color: white;
   border: 1px solid #2980b9;
-  width: 100px;
+  width: 304px;
   color: #2980b9;
   cursor: text;
+}
+
+textarea {
+  background-color: white;
+  border: 1px solid #2980b9;
+  width: 300px;
+  color: #2980b9;
+  cursor: text;
+  resize: none;
 }
 
 a {

@@ -6,6 +6,10 @@ input {
   display: block;
 }
 
+textarea {
+  display: block;
+}
+
 .mainForm {
   margin: 9px 0px;
 }
