@@ -28,7 +28,14 @@
 }
 
 .detailsBiome {
-  margin: 12px 0px;
+  margin: 4px 0px 12px 0px;
+  color: #34495e;
+  font-weight: bold;
+}
+
+.detailsCoords {
+  font-family: monospace;
+  font-size: 0.9em;
 }
 
 .detailsImage {
@@ -58,7 +65,7 @@
 
 .detailsTags {
   float: right;
-  width: 185px;
+  width: 180px;
 } 
 
 .tagList {

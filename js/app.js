@@ -97,7 +97,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.$storage = $localStorage;
   $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
 
-
   $scope.deletePlanet = function() {
     var planet = $scope.planet;
     console.debug("deletePlanet("+planet.name+")");
@@ -122,8 +121,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.newPlanet.sector =
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
     console.log("Sector saved as:"+$scope.newPlanet.sector);
-    if(!$scope.newPlanet instanceof Array) {
+    console.debug($scope.newPlanet.tags);
+    console.debug($scope.newPlanet.tags instanceof Array);
+    if(!($scope.newPlanet.tags instanceof Array)) {
       $scope.newPlanet.tags = $scope.newPlanet.tags.split(/,| ,|, | , /);
+      console.debug($scope.newPlanet.tags);
     }
     $scope.planet = $scope.newPlanet;
 

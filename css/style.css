@@ -11,6 +11,11 @@ body {
   padding: 0px;
   overflow: hidden;
   font-size: 12px;
+  font-family: 'open_sansregular';
+}
+
+p {
+  font-family: 'open_sansregular';
 }
 
 input[type=submit] {
@@ -24,6 +29,10 @@ input[type=text] {
   width: 304px;
   color: #2980b9;
   cursor: text;
+}
+
+#titlebar input {
+  width: 120px;
 }
 
 textarea {
@@ -181,7 +190,8 @@ ul {
 .planetCoords {
   margin: 2px 0px 20px 0px;
   float: right;
-  font-size: 1em;
+  font-size: 0.9em;
+  font-family: monospace;
 }
 
 .planetDescription {
