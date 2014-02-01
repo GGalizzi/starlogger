@@ -1,7 +1,7 @@
 {
   "name": "Starlogger",
   "version": "0.1",
-  "main": "index.html",
+  "main": "assets/index.html",
   "window": {
     "toolbar": false,
     "frame": false,
