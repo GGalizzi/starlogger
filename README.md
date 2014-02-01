@@ -1,5 +1,6 @@
-Starlogger is an application to log planets you visit in Starbound.
+Starlogger
+---------
 
-Currently a work in progress.
+You can use Starlogger to log your travels on the game [Starbound](http://www.playstarbound.com).
 
-It uses Node-Webkit and Angular.js to make it work as a desktop application.
+Add planets, describe them, tag them. And then quickly find your logs with search and filters.
