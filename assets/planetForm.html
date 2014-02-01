@@ -1,0 +1,24 @@
+<form name="planetForm">
+  <div class="mainForm">
+    <label>Name</label>
+    <input type="text" name="name" ng-model="newPlanet.name">
+    
+    <label>X</label>
+    <input type="text" name="x" ng-model="newPlanet.x">
+    <label>Y</label>
+    <input type="text" name="y" ng-model="newPlanet.y">
+
+    <label>Biome</label>
+    <input type="text" name="biome" ng-model="newPlanet.biome">
+
+    <label>Description</label>
+    <textarea name="description" rows="5" ng-model="newPlanet.description">{{newPlanet.description}}</textarea>
+
+    <label>Tags - Separate multiple tags with commas.</label>
+    <input type="text" name="tags" ng-model="newPlanet.tags">
+  </div>
+
+  <a class="button" href="#/">Cancel</a>
+  <a class="button" ng-click="save()">Save</a>
+
+</form>
