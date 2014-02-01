@@ -123,7 +123,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     console.log("Sector saved as:"+$scope.newPlanet.sector);
     console.debug($scope.newPlanet.tags);
     console.debug($scope.newPlanet.tags instanceof Array);
-    if(!($scope.newPlanet.tags instanceof Array)) {
+    if($scope.newPlanet.tags && !($scope.newPlanet.tags instanceof Array)) {
       $scope.newPlanet.tags = $scope.newPlanet.tags.split(/,| ,|, | , /);
       console.debug($scope.newPlanet.tags);
     }
