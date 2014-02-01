@@ -60,7 +60,14 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   return {sharedSearch: {data: null} }
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, search) {
+.service('tagSearch', function($location, search) {
+  this.forTag = function(query) {
+    search.sharedSearch.data = query;
+    $location.path('/');
+  };
+})
+
+.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch) {
 
 
   // copy local storage to the $storage service.
@@ -68,6 +75,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
   $scope.$storage.planetList = JSON.parse(fs.readFileSync('planets.json'));
   $scope.search = search.sharedSearch;
+  $scope.tagSearch = tagSearch;
 
 
   // Check if the storage.planetList is empty or unexistant.
@@ -93,7 +101,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   saveToJson($scope.planets);
 })
 
-.controller('planetDetailsCtrl', function($scope, $localStorage, $routeParams, $location, search) {
+.controller('planetDetailsCtrl', function($scope, $localStorage, $routeParams, $location, search, tagSearch) {
   $scope.$storage = $localStorage;
   $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
 
@@ -105,10 +113,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $location.path('#/');
   }
 
-  $scope.searchFor = function(query) {
-    search.sharedSearch.data = query;
-    $location.path('/');
-  };
+  $scope.tagSearch = tagSearch;
+
 })
 
 .controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location) {

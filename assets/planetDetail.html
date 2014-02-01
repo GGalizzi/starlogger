@@ -11,7 +11,7 @@
     <div class="detailsDescription">{{planet.description}}</div>
     <div class="detailsTags">
       <ul>
-        <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="searchFor(tag)">{{tag}}</li>
+        <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="tagSearch.forTag(tag)">{{tag}}</li>
       </ul>
     </div>
   </div>
