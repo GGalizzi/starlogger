@@ -260,3 +260,11 @@ ul {
 #xFilter + label {
   background-position: -92px -22px;
 }
+
+#autoFilter:checked + label {
+  background-position: -114px 0px;
+}
+
+#autoFilter + label {
+  background-position: -114px -22px;
+}

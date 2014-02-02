@@ -35,6 +35,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
       templateUrl: 'planetForm.html'
     })
 
+    .when('/settings', {
+      controller: 'settingsCtrl',
+      templateUrl: 'settings.html'
+    })
+
     .otherwise({
       redirectTo: '/'
     });
@@ -76,6 +81,54 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.$storage.planetList = JSON.parse(fs.readFileSync('planets.json'));
   $scope.search = search.sharedSearch;
   $scope.tagSearch = tagSearch;
+
+  $scope.readUniverse = fs.readFileSync('universe', 'utf8');
+  $scope.readUniverse = $scope.readUniverse.replace(/\s+/, '');
+  console.log($scope.readUniverse);
+  if($scope.readUniverse) {
+    var cont = true;
+    try {
+      $scope.knownWorlds = fs.readdirSync($scope.readUniverse);
+    } catch (e) {
+      console.log('Error.', e);
+      cont = false;
+
+    }
+    if(cont) {
+      $scope.knownWorlds.forEach(function(val, index, arr) {
+        var fileExt = val.split('.');
+        if (fileExt[fileExt.length-1] == "world") {
+          var arrsp = val.split("_");
+          if (arrsp[0] == "sectorx") {
+            arrsp[0] = "x";
+          }
+          var pln = arrsp[0].charAt(0).toUpperCase()+arrsp[0].slice(1)+" "+arrsp[1]+" "+arrsp[2];
+          var coords = arrsp[1]+" "+arrsp[2];
+          var alreadyExists = false;
+          for(var planet in $scope.$storage.planetList) {
+            var otherCoords = $scope.$storage.planetList[planet].x+" "+$scope.$storage.planetList[planet].y;
+            if(coords === otherCoords) {
+              console.log(coords+" | "+otherCoords);
+            }
+            if (coords === otherCoords) {
+              alreadyExists = true;
+              break;
+            }
+          }
+
+          if(!alreadyExists) {
+            var planet = $scope.$storage.planetList[pln] = {};
+            planet.name = pln;
+            planet.x = arrsp[1];
+            planet.y = arrsp[2];
+            planet.sector = arrsp[0];
+            planet.auto = true;
+          }
+
+        }
+      });
+    }
+  }
 
 
   // Check if the storage.planetList is empty or unexistant.
@@ -126,6 +179,8 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     console.log("Saving sector name...");
     $scope.newPlanet.sector =
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
+
+    $scope.newPlanet.auto = false;
     console.log("Sector saved as:"+$scope.newPlanet.sector);
     console.debug($scope.newPlanet.tags);
     console.debug($scope.newPlanet.tags instanceof Array);
@@ -161,6 +216,15 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.debugApp = function() {
     win.showDevTools();
   }
+})
+
+.controller('settingsCtrl', function($scope, $location) {
+  $scope.universePath = fs.readFileSync('universe', 'utf8');
+
+  $scope.save = function() {
+    fs.writeFile('universe', $scope.universePath, 'utf8');
+    $location.path('/');
+  };
 })
 
 .directive('slPlanets', function() {
