@@ -181,12 +181,16 @@ ul {
   color: #ecf0f1;
 }
 
-.planetName {
+.planetName { 
   margin: 2px;
   float: left;
   font-size: 1.3em;
   color: #34495e;
   font-weight: bold;
+  max-width: 284px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   -webkit-user-select: text;
 }
 

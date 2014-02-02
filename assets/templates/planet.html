@@ -1,5 +1,12 @@
-<span ng-repeat="planet in planets | withName:search.data"  ng-hide="{{planet.sector}}Filter || {{planet.auto}}Filter">
-  <div class="planetContainer"  ng-class-odd="'odd'">
+<select name="predicate" ng-model="predicate">
+  <option value="date">Date</option>
+  <option value="-date">-Date</option>
+  <option value="name">Name</option>
+  <option value="-name">Name</option>
+</select>
+{{predicate}}
+<span ng-repeat="planet in planets | toArray | withName:search.data | orderBy:predicate"  ng-hide="{{planet.sector}}Filter || {{planet.auto}}Filter">
+  <div title="{{planet.date | date:'MM/dd/yyyy @ h:mma'}}" class="planetContainer"  ng-class-odd="'odd'">
     <div class="planetHeader">
       <a href="#/details/{{planet.name}}" class="planetName">{{planet.name}}</a>
       <span class="planetCoords">X: {{planet.x}} Y: {{planet.y}}</span>

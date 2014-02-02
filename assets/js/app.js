@@ -61,6 +61,40 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
+.filter('orderObjectBy', function() {
+  return function(items, field, reverse, query) {
+    var filtered = [];
+    angular.forEach(items, function(planet) {
+      console.debug(query);
+      if(!query) filtered.push(planet);
+      else if(planet.name.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
+         planet.description.toLowerCase().indexOf(query.toLowerCase()) != -1 ||
+         planet.tags.join().toLowerCase().indexOf(query.toLowerCase()) != -1) {
+      filtered.push(planet);
+      }
+    });
+    filtered.sort(function (a,b) {
+      return (a[field] > b[field]);
+    });
+    if(reverse) filtered.reverse();
+    return filtered;
+  };
+})
+
+.filter('toArray', function () {
+  'use strict';
+
+  return function (obj) {
+    if (!(obj instanceof Object)) {
+      return obj;
+    }
+
+    return Object.keys(obj).map(function (key) {
+      return Object.defineProperty(obj[key], '$key', {__proto__: null, value: key});
+    });
+  }
+})
+
 .factory('search', function() {
   return {sharedSearch: {data: null} }
 })
@@ -90,6 +124,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.search = search.sharedSearch;
   $scope.tagSearch = tagSearch;
 
+  //OrderBy
+  $scope.predicate = 'date';
+
   $scope.readUniverse = settings.universePath;
   console.log($scope.readUniverse);
   if($scope.readUniverse) {
@@ -109,15 +146,15 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
           if (arrsp[0] == "sectorx") {
             arrsp[0] = "x";
           }
-          var pln = arrsp[0].charAt(0).toUpperCase()+arrsp[0].slice(1)+" "+arrsp[1]+" "+arrsp[2];
+          var lastsp = "0"
+          if(arrsp[5]) { lastsp = arrsp[5].split('.')[0]; }
+          else { lastsp = arrsp[4].split('.')[0]; }
+          var pln = arrsp[0].charAt(0).toUpperCase()+arrsp[0].slice(1)+" "+arrsp[1]+" "+arrsp[2]+"_"+arrsp[3]+lastsp;
           var coords = arrsp[1]+" "+arrsp[2];
           var alreadyExists = false;
           for(var planet in $scope.$storage.planetList) {
             var otherCoords = $scope.$storage.planetList[planet].x+" "+$scope.$storage.planetList[planet].y;
-            if(coords === otherCoords) {
-              console.log(coords+" | "+otherCoords);
-            }
-            if (coords === otherCoords) {
+            if (pln === $scope.$storage.planetList[planet].byAuto) {
               alreadyExists = true;
               break;
             }
@@ -129,7 +166,12 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
             planet.x = arrsp[1];
             planet.y = arrsp[2];
             planet.sector = arrsp[0];
+            planet.description = "No description";
+            planet.tags = ["Added via Universe Folder"];
             planet.auto = true;
+            planet.byAuto = pln;
+            planet.date = Date();
+            saveToJson($scope.$storage.planetList);
           }
 
         }
@@ -188,6 +230,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
 
     $scope.newPlanet.auto = false;
+    $scope.newPlanet.date = Date();
     console.log("Sector saved as:"+$scope.newPlanet.sector);
     console.debug($scope.newPlanet.tags);
     console.debug($scope.newPlanet.tags instanceof Array);
