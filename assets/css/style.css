@@ -1,5 +1,5 @@
 html {
-  height:531px;
+  height: 100%;
   margin: 0px;
   padding: 0px;
   border: 3px solid #2980b9;
@@ -29,6 +29,14 @@ input[type=text] {
   width: 304px;
   color: #2980b9;
   cursor: text;
+}
+
+select {
+  border: none;
+  background-color: #2980fb;
+  color: white;
+  -webkit-appearance: none;
+  padding: 2px;
 }
 
 #titlebar input {
@@ -61,6 +69,19 @@ ul {
   margin-right: 9px;
   cursor: pointer;
   -webkit-user-select:none;
+}
+
+.order {
+  border-bottom: 1px solid white;
+  color: white;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+
+.orderBy {
+  padding: 6px;
+  background-color: #2980b9;
+  color: white;
 }
 
 ::-webkit-scrollbar {
@@ -112,7 +133,7 @@ ul {
 #sidebar {
   float: left;
   width: 10%;
-  height: 500px;
+  height: 570px;
   background-color: #2980b9;
   -webkit-user-select: none;
   -webkit-app-region: drag;
@@ -134,8 +155,8 @@ ul {
 #planets {
   width: 90%;
   overflow-y:scroll;
-  min-height: 500px;
-  max-height: 500px;
+  min-height: 539px;
+  max-height: 539px;
 }
 
 .planetLinks {
@@ -154,19 +175,20 @@ ul {
 
 .planetContainer {
   position: relative;
+  /*
   border-bottom: 1px solid #2980b9;
+  */
   padding: 5px;
   -webkit-user-select: none;
+}
+
+.odd {
+  background-color: #f4f4f4;
 }
 
 .planetContainer ul {
   text-align: right;
 }
-
-.odd {
-  background-color: white;
-}
-
 
 .planetContainer:hover {
   background-color: #34495e;
@@ -271,4 +293,24 @@ ul {
 
 #autoFilter + label {
   background-position: -114px -22px;
+}
+
+/*Settings*/
+
+.help {
+  margin-left: 3px;
+  padding: 4px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #2980b9;
+}
+
+.helpContent {
+  text-decoration: none;
+  display: block;
+  cursor: text;
+  border: 1px solid #2980b9;
+  padding: 3px;
+  max-width: 475px;
 }

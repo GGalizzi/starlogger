@@ -1,8 +1,19 @@
 <form>
   <div class="mainForm">
     <label>Path to Universe folder</label>
+    <span class="help" ng-click="togglePathHelp()">?</span>
+    <div class="helpContent" ng-show="showHelp">
+      <p>Setting the path to your universe folder will allow the application to automatically
+        add new planets you visit to the list.</p>
+      <p>Default locations (click one to automatically add it): </p>
+      <p ng-click="universePath='C:\\Program Files\\Steam\\steamapps\\common\\starbound\\universe'">Windows:<br> C:\Program Files\Steam\steamapps\common\starbound\universe</p>
+      <p ng-click="universePath='~/Library/Application/Support/Steam/SteamApps/common/Starbound/universe'">MacOS:<br> ~/Library/Application Support/Steam/SteamApps/common/Starbound/universe</p>
+      <p ng-click="universePath='~/.local/share/Steam/SteamApps/common/Starbound/linux32/universe'">32-bit Linux:<br> ~/.local/share/Steam/SteamApps/common/Starbound/linux32/universe</p>
+      <p ng-click="universePath='~/.local/share/Steam/SteamApps/common/Starbound/linux64/universe'">64-bit Linux:<br> ~/.local/share/Steam/SteamApps/common/Starbound/linux64/universe</p>
+    </div>
     <input type="text" name="universePath" ng-model="universePath">
 
   </div>
   <a class="button" ng-click="save()">Save</a>
+  <a href="#/" class="button">Cancel</a>
 </form>

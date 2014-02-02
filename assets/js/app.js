@@ -61,6 +61,23 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
+.filter('secFilter', function(orderPlanets) {
+  return function(input) {
+    var f = orderPlanets.settings;
+    var result = [];
+    angular.forEach(input, function(planet) {
+      if(!f.alphaFilter && planet.sector == "alpha") result.push(planet);
+      else if(!f.betaFilter && planet.sector == "beta") result.push(planet);
+      else if(!f.gammaFilter && planet.sector == "gamma") result.push(planet);
+      else if(!f.deltaFilter && planet.sector == "delta") result.push(planet);
+      else if(!f.xFilter && planet.sector == "x") result.push(planet);
+
+      if(f.autoFilter && planet.auto) result.pop(planet);
+    });
+    return result;
+  };
+})
+
 .filter('orderObjectBy', function() {
   return function(items, field, reverse, query) {
     var filtered = [];
@@ -114,7 +131,15 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch, settings) {
+.factory('orderPlanets', function() {
+  //True means hide on filters.
+
+  return {settings: {predicate: "date", reverse: true, order: "Descending",
+  alphaFilter: false, betaFilter: false, gammaFilter: false, deltaFilter: false,
+  xFilter: false, autoFilter:false}}
+})
+
+.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch, settings, orderPlanets) {
 
 
   // copy local storage to the $storage service.
@@ -125,9 +150,24 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.tagSearch = tagSearch;
 
   //OrderBy
-  $scope.predicate = 'date';
+  /*
+  $scope.predicate = orderPlanets.predicate;
+  $scope.reverse = orderPlanets.reverse;
+  $scope.order = orderPlanets.order;
+  */
+  $scope.orderOptions = orderPlanets.settings;
 
-  $scope.readUniverse = settings.universePath;
+  $scope.switchOrder = function() {
+    if($scope.orderOptions.reverse == false) {
+      $scope.orderOptions.reverse = true;
+      $scope.orderOptions.order = "Descending";
+    }
+    else {
+      $scope.orderOptions.reverse = false;
+      $scope.orderOptions.order = "Ascending";
+    }
+  };
+  $scope.readUniverse = settings.universePath; 
   console.log($scope.readUniverse);
   if($scope.readUniverse) {
     var cont = true;
@@ -170,7 +210,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
             planet.tags = ["Added via Universe Folder"];
             planet.auto = true;
             planet.byAuto = pln;
-            planet.date = Date();
+            planet.date = Date.now();
             saveToJson($scope.$storage.planetList);
           }
 
@@ -230,7 +270,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
       $scope.newPlanet.name.split(" ")[0].toLowerCase();
 
     $scope.newPlanet.auto = false;
-    $scope.newPlanet.date = Date();
+    $scope.newPlanet.date = Date.now();
     console.log("Sector saved as:"+$scope.newPlanet.sector);
     console.debug($scope.newPlanet.tags);
     console.debug($scope.newPlanet.tags instanceof Array);
@@ -268,6 +308,10 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 })
 
+.controller('sidebarCtrl', function($scope, orderPlanets) {
+  $scope.orderOptions = orderPlanets.settings;
+})
+
 .controller('settingsCtrl', function($scope, $location, settings) {
   $scope.universePath = fs.readFileSync('universe', 'utf8');
 
@@ -275,6 +319,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     settings.universePath = $scope.universePath;
     fs.writeFile('universe', $scope.universePath, 'utf8');
     $location.path('/');
+  };
+
+  $scope.showHelp = false;
+  $scope.togglePathHelp = function() {
+    $scope.showHelp = $scope.showHelp == false ? true : false;
   };
 })
 
