@@ -10,6 +10,10 @@ This application is made using [Node-Webkit](https://github.com/rogerwang/node-w
 Changelog
 ---------
 
+2.0.0 changes:
+
+-The app can now read your universe folder and automatically add new planets you visit. Go to the settings page, and enter the path to your universe folder, located where Starbound is installed.
+
 1.7.0 changes:
 
 -Tags now show on the planet list.

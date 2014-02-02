@@ -65,6 +65,14 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   return {sharedSearch: {data: null} }
 })
 
+.factory('settings', function() {
+  var obj = {universePath: null};
+  obj.universePath = fs.readFileSync('universe', 'utf8');
+  obj.universePath = obj.universePath.replace(/\n/, '');
+
+  return obj;
+})
+
 .service('tagSearch', function($location, search) {
   this.forTag = function(query) {
     search.sharedSearch.data = query;
@@ -72,7 +80,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch) {
+.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch, settings) {
 
 
   // copy local storage to the $storage service.
@@ -82,8 +90,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.search = search.sharedSearch;
   $scope.tagSearch = tagSearch;
 
-  $scope.readUniverse = fs.readFileSync('universe', 'utf8');
-  $scope.readUniverse = $scope.readUniverse.replace(/\s+/, '');
+  $scope.readUniverse = settings.universePath;
   console.log($scope.readUniverse);
   if($scope.readUniverse) {
     var cont = true;
@@ -218,10 +225,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 })
 
-.controller('settingsCtrl', function($scope, $location) {
+.controller('settingsCtrl', function($scope, $location, settings) {
   $scope.universePath = fs.readFileSync('universe', 'utf8');
 
   $scope.save = function() {
+    settings.universePath = $scope.universePath;
     fs.writeFile('universe', $scope.universePath, 'utf8');
     $location.path('/');
   };
