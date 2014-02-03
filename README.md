@@ -20,12 +20,12 @@ Changelog
 
 2.0.0 changes:
 
--The app can now read your universe folder and automatically add new planets you visit. Go to the settings page, and enter the path to your universe folder, located where Starbound is installed.
+* The app can now read your universe folder and automatically add new planets you visit. Go to the settings page, and enter the path to your universe folder, located where Starbound is installed.
 
 1.7.0 changes:
 
--Tags now show on the planet list.
+* Tags now show on the planet list.
 
 1.6.0 changes:
 
--Bug fix: Tags are no longer mandatory when adding a new planet.
+* Bug fix: Tags are no longer mandatory when adding a new planet.
