@@ -5,19 +5,16 @@
   </select>
   <span class="order" ng-model="orderOptions.reverse" ng-click="switchOrder()">{{orderOptions.order}}</span>
 </div>
-<span ng-repeat="planet in planets | toArray | secFilter | withName:search.data | orderBy:orderOptions.predicate:orderOptions.reverse track by $index">
-  <div title="{{planet.date | date:'MM/dd/yyyy @ h:mma'}}" class="planetContainer"  ng-class-odd="'odd'">
-    <div class="planetHeader">
-      <a href="#/details/{{planet.name}}" class="planetName">{{planet.name}}</a>
-      <span class="planetCoords">X: {{planet.x}} Y: {{planet.y}}</span>
-    </div>
-    <div class="planetDescription">
-      {{planet.description}}
-    </div>
-    <ul>
-      <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="tagSearch.forTag(tag)">{{tag}}</li>
-    </ul>
-
-  </span>
+<div ng-repeat="planet in planets | toArray | secFilter | withName:search.data | orderBy:orderOptions.predicate:orderOptions.reverse track by $index" title="{{planet.date | date:'MM/dd/yyyy @ h:mma'}}" class="planetContainer"  ng-class-odd="'odd'">
+  <div class="planetHeader">
+    <a href="#/details/{{planet.name}}" class="planetName">{{planet.name}}</a>
+    <span class="planetCoords">X: {{planet.x}} Y: {{planet.y}}</span>
   </div>
-</span>
+  <div class="planetDescription">
+    {{planet.description}}
+  </div>
+  <ul>
+    <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="tagSearch.forTag(tag)">{{tag}}</li>
+  </ul>
+
+</div>
