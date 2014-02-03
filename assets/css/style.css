@@ -37,6 +37,7 @@ select {
   color: white;
   -webkit-appearance: none;
   padding: 2px;
+  font-family: 'bebas_neueregular';
 }
 
 #titlebar input {
@@ -62,6 +63,10 @@ ul {
   padding: 0;
 }
 
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
 .button {
   background-color: #2980b9;
   color: white;
@@ -72,22 +77,15 @@ ul {
 }
 
 .order {
-  border-bottom: 1px solid #34495e;
-  color: #34495e;
   -webkit-user-select: none;
   cursor: pointer;
 }
 
-.orderBy {
-  border-bottom: 1px solid #2980b9;
-  padding: 6px;
-  text-align: right;
-}
 
 .topsectorFilter {
-  float: left;
-  z-index: 5;
+  z-index: 15;
   position: relative;
+  margin-right: 6px;
 }
 
 .topsectorFilter ul {
@@ -103,10 +101,11 @@ ul {
 }
 
 .topsectorFilter li {
-  border-bottom: 1px solid white;
+  border-top: 1px solid white;
   padding: 4px;
   text-align: left;
   -webkit-user-select: none;
+  width: 50px;
 }
 
 .filterOn {
@@ -144,6 +143,10 @@ ul {
   -webkit-user-select: none;
   -webkit-app-region: no-drag;
   cursor: pointer;
+  -webkit-transform: rotate(-90deg);
+  position: absolute;
+  top: 56px;
+  margin-left: -20px;
 }
 
 .titleBarButton {
@@ -157,11 +160,19 @@ ul {
   text-transform: uppercase;
   font-family: 'bebas_neueregular';
   padding: 5px;
+  letter-spacing: 0.75px;
+}
+
+.orderBy {
+  padding: 0px;
+  float: left;
+  margin-left: 34px;
 }
 
 #sidebar {
+  clear: both;
   float: left;
-  width: 10%;
+  width: 5%;
   height: 570px;
   background-color: #2980b9;
   -webkit-user-select: none;
@@ -192,11 +203,12 @@ ul {
   text-indent: -999px;
   -webkit-app-region: no-drag;
   margin-bottom: 6px;
+  margin-top: 80px;
 }
 
 #planets {
   position: relative;
-  width: 90%;
+  width: 95%;
   overflow-y:scroll;
   min-height: 539px;
   max-height: 539px;
@@ -230,12 +242,18 @@ ul {
 }
 
 .planetContainer ul {
-  text-align: right;
+  text-align: left;
 }
 
 .planetContainer:hover {
   background-color: #34495e;
   color: white;
+}
+
+.planetContainer:hover .planetDescription {
+  white-space: normal;
+  overflow-y: auto;
+  height: auto;
 }
 
 .planetContainer:hover .planetLinks {
@@ -268,13 +286,17 @@ ul {
 }
 
 .planetDescription {
-  width: 44%;
   height: 1.5em;
   clear: both;
   -webkit-user-select: text;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+
+.planetFooter {
+  clear: both;
 }
 
 .sectorFilter + label {

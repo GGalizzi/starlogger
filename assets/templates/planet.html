@@ -1,27 +1,16 @@
 
-<div class="orderBy">
-  <span class="topsectorFilter">
-    Filter sectors
-    <ul>
-      <li ng-repeat="sector in knownSectors.sectors" ng-class="{filterOn: sector.stat}" ng-click="switchFilter(sector)">{{sector.name}}</li>
-    </ul>
-  </span>
-  <label>Order By </label> <select name="predicate" ng-model="orderOptions.predicate">
-    <option value="date">Date</option>
-    <option value="name">Name</option>
-  </select>
-  <span class="order" ng-model="orderOptions.reverse" ng-click="switchOrder()">{{orderOptions.order}}</span>
-</div>
 <div ng-repeat="planet in planets | toArray | secFilter | withName:search.data | orderBy:orderOptions.predicate:orderOptions.reverse track by $index" title="{{planet.date | date:'MM/dd/yyyy @ h:mma'}}" class="planetContainer"  ng-class-odd="'odd'">
   <div class="planetHeader">
     <a href="#/details/{{planet.name}}" class="planetName">{{planet.name}}</a>
     <span class="planetCoords">X: {{planet.x}} Y: {{planet.y}}</span>
   </div>
-  <div class="planetDescription">
-    {{planet.description}}
+  <div class="planetFooter">
+    <div class="planetDescription">
+      {{planet.description}}
+    </div>
+    <ul class="tagListContainer">
+      <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="tagSearch.forTag(tag)">{{tag}}</li>
+    </ul>
   </div>
-  <ul>
-    <li class="tagList" ng-repeat="tag in planet.tags track by $index" ng-click="tagSearch.forTag(tag)">{{tag}}</li>
-  </ul>
 
 </div>

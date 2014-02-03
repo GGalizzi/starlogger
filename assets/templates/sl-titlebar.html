@@ -1,10 +1,24 @@
 <div ng-controller="titlebarCtrl" id="titlebar">
-  <a href="#/" ng-click="search.data=''" id="title">Starlogger</a>
+
   <span ng-click="closeApp()" class="titleBarButton">x</span>
   <span ng-click="minimizeApp()" class="titleBarButton">-</span>
-  <!--
   <span ng-click="debugApp()" class="titleBarButton">Debug</span>
-  -->
   <a href="#/settings" class="titleBarButton">Settings</a>
   <input type="text" class="titleBarButton" ng-model="search.data" placeholder="Search">
+
+
+  <span class="titleBarButton topsectorFilter">
+    Filter sectors
+    <ul>
+      <li ng-repeat="sector in knownSectors.sectors" ng-class="{filterOn: sector.stat}" ng-click="switchFilter(sector)">{{sector.name}}</li>
+    </ul>
+  </span>
+  <span class="titleBarButton orderBy no-drag">
+    <label>Order By </label> <select name="predicate" ng-model="orderOptions.predicate">
+      <option value="date">Date</option>
+      <option value="name">Name</option>
+    </select>
+    <span class="order" ng-model="orderOptions.reverse" ng-click="switchOrder()">{{orderOptions.order}}</span>
+  </span>
+
 </div>

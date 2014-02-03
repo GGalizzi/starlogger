@@ -159,7 +159,11 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 .factory('knownSectors', function() {
   var sectors = [];
-  var planetList = JSON.parse(fs.readFileSync('planets.json'));
+  try { 
+    var planetList = JSON.parse(fs.readFileSync('planets.json'));
+  } catch (e) {
+    var planetList= {};
+  }
   var check = [];
   for (var key in planetList) {
     var planet = planetList[key];
@@ -175,10 +179,16 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 .controller('planetListCtrl', function($scope, $localStorage, search, tagSearch, settings, orderPlanets, knownSectors) {
 
 
+  $localStorage.$reset();
   // copy local storage to the $storage service.
   $scope.$storage = $localStorage;
 
-  $scope.$storage.planetList = JSON.parse(fs.readFileSync('planets.json'));
+  try {
+    $scope.$storage.planetList = JSON.parse(fs.readFileSync('planets.json'));
+  } catch (e) {
+    console.log('Error.', e);
+    saveToJson({});
+  }
   $scope.search = search.sharedSearch;
   $scope.tagSearch = tagSearch;
 
@@ -248,9 +258,16 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
             planet.byAuto = pln;
             planet.date = Date.now();
             saveToJson($scope.$storage.planetList);
-            if (knownSectors.sectors.indexOf(planet.sector) == -1) {
+
+            // Check if sector is new one, if so add it to knownSectors.
+            var known = false;
+            knownSectors.sectors.forEach(function(val, index, arr) {
+              if (planet.sector == val.name) known = true;
+            });
+            if (!known) {
               knownSectors.sectors.push({name: planet.sector, stat: true});
             }
+
           }
 
         }
@@ -263,9 +280,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
   $scope.knownSectors = knownSectors;
 
-  $scope.switchFilter = function(sector) {
-    sector.stat ? sector.stat = false : sector.stat = true;
-  };
 
 
   // Check if the storage.planetList is empty or unexistant.
@@ -334,7 +348,13 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
     console.log("Saved to storage:\n"+$scope.$storage.planetList[$scope.planet.name]);
     saveToJson($scope.$storage.planetList);
-    if (knownSectors.sectors.indexOf($scope.planet.sector) == -1) {
+
+    // Check if sector is new one, if so add it to knownSectors.
+    var known = false;
+    knownSectors.sectors.forEach(function(val, index, arr) {
+      if ($scope.planet.sector == val.name) known = true;
+    });
+    if (!known) {
       knownSectors.sectors.push({name: $scope.planet.sector, stat: true});
     }
   $location.path('/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
@@ -343,7 +363,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 })
 
 
-.controller('titlebarCtrl', function($scope, search) {
+.controller('titlebarCtrl', function($scope, search, orderPlanets, knownSectors) {
   $scope.search = search.sharedSearch;
 
   $scope.closeApp = function() {
@@ -357,6 +377,25 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   $scope.debugApp = function() {
     win.showDevTools();
   }
+  $scope.orderOptions = orderPlanets.settings;
+
+  $scope.knownSectors = knownSectors;
+
+
+  $scope.switchFilter = function(sector) {
+    sector.stat ? sector.stat = false : sector.stat = true;
+  };
+
+  $scope.switchOrder = function() {
+    if($scope.orderOptions.reverse == false) {
+      $scope.orderOptions.reverse = true;
+      $scope.orderOptions.order = "Descending";
+    }
+    else {
+      $scope.orderOptions.reverse = false;
+      $scope.orderOptions.order = "Ascending";
+    }
+  };
 })
 
 .controller('sidebarCtrl', function($scope, orderPlanets, search) {
