@@ -1,11 +1,14 @@
 <div id="sidebar" ng-controller="sidebarCtrl">
   <a id="homeLink" href="#/" ng-click="search.data=''" title="Go back to the planet list">@</a>
   <a id="addPlanet" href="#/add-planet" title="Add a new planet">@</a>
+
+  <!-- OLD FILTERS
   <input type="checkbox" class="sectorFilter" id="alphaFilter" ng-model="orderOptions.alphaFilter" checked><label for="alphaFilter" title="Hide Alpha planets"></label>
   <input type="checkbox" class="sectorFilter" id="betaFilter" ng-model="orderOptions.betaFilter" checked><label for="betaFilter" title="Hide Beta planets"></label>
   <input type="checkbox" class="sectorFilter" id="gammaFilter" ng-model="orderOptions.gammaFilter" checked><label for="gammaFilter" title="Hide Gamma planets"></label>
   <input type="checkbox" class="sectorFilter" id="deltaFilter" ng-model="orderOptions.deltaFilter" checked><label for="deltaFilter" title="Hide Delta planets"></label>
   <input type="checkbox" class="sectorFilter" id="xFilter" ng-model="orderOptions.xFilter" checked><label for="xFilter" title="Hide X planets"></label>
+  -->
   <input type="checkbox" class="sectorFilter" id="autoFilter" ng-model="orderOptions.autoFilter" checked><label title="Hides planets automatically added via the Universe folder" for="autoFilter"></label>
 
 </div>

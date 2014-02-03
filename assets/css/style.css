@@ -84,6 +84,35 @@ ul {
   text-align: right;
 }
 
+.topsectorFilter {
+  float: left;
+  z-index: 5;
+  position: relative;
+}
+
+.topsectorFilter ul {
+  visibility: hidden;
+  position: absolute;
+}
+
+.topsectorFilter:hover ul {
+  visibility: visible;
+  background-color: #7f8c8d;
+  color: white;
+  cursor: pointer;
+}
+
+.topsectorFilter li {
+  border-bottom: 1px solid white;
+  padding: 4px;
+  text-align: left;
+  -webkit-user-select: none;
+}
+
+.filterOn {
+  background-color: #2980b9;
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }

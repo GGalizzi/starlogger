@@ -61,6 +61,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   };
 })
 
+/*
 .filter('secFilter', function(orderPlanets) {
   return function(input) {
     var f = orderPlanets.settings;
@@ -73,6 +74,23 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
       else if(!f.xFilter && planet.sector == "x") result.push(planet);
 
       if(f.autoFilter && planet.auto) result.pop(planet);
+    });
+    return result;
+  };
+})
+*/
+
+.filter('secFilter', function(knownSectors, orderPlanets) {
+  return function(input) {
+    var f = knownSectors.sectors;
+    var other = orderPlanets.settings;
+    var result = [];
+    f.forEach(function(sector, index, arr) {
+      angular.forEach(input, function(planet) {
+        // Compare planet.sector to sector.
+        if( (sector.name === planet.sector) && sector.stat) result.push(planet);
+        if(other.autoFilter && planet.auto) result.pop(planet);
+      });
     });
     return result;
   };
@@ -136,10 +154,25 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
   return {settings: {predicate: "date", reverse: true, order: "Descending",
   alphaFilter: false, betaFilter: false, gammaFilter: false, deltaFilter: false,
-  xFilter: false, autoFilter:false}}
+  xFilter: false, autoFilter:false}};
 })
 
-.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch, settings, orderPlanets) {
+.factory('knownSectors', function() {
+  var sectors = [];
+  var planetList = JSON.parse(fs.readFileSync('planets.json'));
+  var check = [];
+  for (var key in planetList) {
+    var planet = planetList[key];
+    if ( check.indexOf(planet.sector) == -1 ) { 
+      sectors.push({name: planet.sector, stat: true});
+      check.push(planet.sector);
+    }
+  }
+  console.log(sectors);
+  return {sectors: sectors};
+})
+
+.controller('planetListCtrl', function($scope, $localStorage, search, tagSearch, settings, orderPlanets, knownSectors) {
 
 
   // copy local storage to the $storage service.
@@ -167,6 +200,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
       $scope.orderOptions.order = "Ascending";
     }
   };
+
+
+  /* Universe reading logic */
   $scope.readUniverse = settings.universePath; 
   console.log($scope.readUniverse);
   if($scope.readUniverse) {
@@ -212,12 +248,24 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
             planet.byAuto = pln;
             planet.date = Date.now();
             saveToJson($scope.$storage.planetList);
+            if (knownSectors.sectors.indexOf(planet.sector) == -1) {
+              knownSectors.sectors.push({name: planet.sector, stat: true});
+            }
           }
 
         }
       });
     }
   }
+
+
+  /* All sectors filters logic */
+
+  $scope.knownSectors = knownSectors;
+
+  $scope.switchFilter = function(sector) {
+    sector.stat ? sector.stat = false : sector.stat = true;
+  };
 
 
   // Check if the storage.planetList is empty or unexistant.
@@ -259,7 +307,7 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
 })
 
-.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location) {
+.controller('planetEditCtrl', function($scope, $localStorage, $routeParams, $location, knownSectors) {
   $scope.$storage = $localStorage;
   var planet = $scope.planet = $scope.$storage.planetList[$routeParams.planetName];
   $scope.newPlanet = planet;
@@ -286,7 +334,10 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     $scope.$storage.planetList[$scope.planet.name] = $scope.planet;
     console.log("Saved to storage:\n"+$scope.$storage.planetList[$scope.planet.name]);
     saveToJson($scope.$storage.planetList);
-    $location.path('/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
+    if (knownSectors.sectors.indexOf($scope.planet.sector) == -1) {
+      knownSectors.sectors.push({name: $scope.planet.sector, stat: true});
+    }
+  $location.path('/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
 
   }
 })
@@ -351,7 +402,6 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     templateUrl: 'templates/sl-titlebar.html'
   };
 })
-
 
 .directive('slSidebar', function() {
   return {

@@ -1,4 +1,11 @@
+
 <div class="orderBy">
+  <span class="topsectorFilter">
+    Filter sectors
+    <ul>
+      <li ng-repeat="sector in knownSectors.sectors" ng-class="{filterOn: sector.stat}" ng-click="switchFilter(sector)">{{sector.name}}</li>
+    </ul>
+  </span>
   <label>Order By </label> <select name="predicate" ng-model="orderOptions.predicate">
     <option value="date">Date</option>
     <option value="name">Name</option>
