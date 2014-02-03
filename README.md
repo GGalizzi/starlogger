@@ -10,6 +10,12 @@ This application is made using [Node-Webkit](https://github.com/rogerwang/node-w
 Changelog
 ---------
 
+2.3.1 changes:
+
++UI Changes.
++Hovering over a planet on the list will now expand its full description.
++Support for future sectors, as well as sectors added by mods, filters for known sectors are automatically added.
+
 2.0.0 changes:
 
 -The app can now read your universe folder and automatically add new planets you visit. Go to the settings page, and enter the path to your universe folder, located where Starbound is installed.
