@@ -308,8 +308,9 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
   }
 })
 
-.controller('sidebarCtrl', function($scope, orderPlanets) {
+.controller('sidebarCtrl', function($scope, orderPlanets, search) {
   $scope.orderOptions = orderPlanets.settings;
+  $scope.search = search.sharedSearch;
 })
 
 .controller('settingsCtrl', function($scope, $location, settings) {

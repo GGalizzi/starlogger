@@ -1,5 +1,5 @@
 <div id="sidebar" ng-controller="sidebarCtrl">
-  <a id="homeLink" href="#/" title="Go back to the planet list">@</a>
+  <a id="homeLink" href="#/" ng-click="search.data=''" title="Go back to the planet list">@</a>
   <a id="addPlanet" href="#/add-planet" title="Add a new planet">@</a>
   <input type="checkbox" class="sectorFilter" id="alphaFilter" ng-model="orderOptions.alphaFilter" checked><label for="alphaFilter" title="Hide Alpha planets"></label>
   <input type="checkbox" class="sectorFilter" id="betaFilter" ng-model="orderOptions.betaFilter" checked><label for="betaFilter" title="Hide Beta planets"></label>
