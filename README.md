@@ -10,11 +10,13 @@ This application is made using [Node-Webkit](https://github.com/rogerwang/node-w
 Changelog
 ---------
 
-2.3.1 changes:
+2.3.2 changes:
 
-+UI Changes.
-+Hovering over a planet on the list will now expand its full description.
-+Support for future sectors, as well as sectors added by mods, filters for known sectors are automatically added.
+* UI Changes.
+  * Hovering over a planet on the list will now expand its full description.
+  * Other white-space changes, the UI should feel more compact, allowing to see more on the planet list/details screen.
+* Support for future sectors, as well as sectors added by mods, filters for known sectors are automatically added.
+  * Whenever a new planet is added, the application will check if that sectors is already known to the app, if it isn't you will see that sector added to the new filter list located at the top, to the left of the search bar.
 
 2.0.0 changes:
 
