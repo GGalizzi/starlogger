@@ -88,8 +88,17 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     f.forEach(function(sector, index, arr) {
       angular.forEach(input, function(planet) {
         // Compare planet.sector to sector.
+
+        if(planet.name == "Alpha Edited") console.debug( result.indexOf(planet) );
         if( (sector.name === planet.sector) && sector.stat) result.push(planet);
-        if(other.autoFilter && planet.auto) result.pop(planet);
+        if(planet.name == "Alpha Edited") { 
+          console.debug( result.indexOf(planet) );
+          console.debug( sector.name, planet.sector, sector.stat, planet.name, planet.auto, other.autoFilter );
+        }
+        if( (planet.sector === sector.name) && other.autoFilter && planet.auto) {
+          if(planet.name == "Alpha Edited") console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH");
+          result.pop(planet);
+        }
       });
     });
     return result;
