@@ -10,6 +10,10 @@ This application is made using [Node-Webkit](https://github.com/rogerwang/node-w
 Changelog
 ---------
 
+2.4.1 changes:
+
+* You can now set the threat level of each planet.
+
 2.3.2 changes:
 
 * UI Changes.
