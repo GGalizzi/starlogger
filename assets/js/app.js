@@ -342,6 +342,27 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
 
     $scope.newPlanet.auto = false;
     $scope.newPlanet.date = Date.now();
+
+    if ($scope.newPlanet.sector != "x" ) {
+      switch ($scope.newPlanet.sector) {
+        case "alpha":
+          $scope.newPlanet.threat = 1;
+          break;
+        case "beta":
+          $scope.newPlanet.threat = 2;
+          break;
+        case "gamma":
+          $scope.newPlanet.threat = 3;
+          break;
+        case "delta":
+          $scope.newPlanet.threat = 4;
+          break;
+        default:
+          $scope.newPlanet.threat = 0;
+          break;
+      }
+    }
+
     console.log("Sector saved as:"+$scope.newPlanet.sector);
     console.debug($scope.newPlanet.tags);
     console.debug($scope.newPlanet.tags instanceof Array);
@@ -368,6 +389,13 @@ var starloggerApp = angular.module('starloggerApp', ['ngStorage', 'ngRoute'])
     }
   $location.path('/details/'+$scope.planet.name.replace(/\s+/g, "%20"));
 
+  }
+
+  $scope.ifSectorX = function() {
+    var sector = $scope.newPlanet.name.split(" ")[0].toLowerCase();
+
+    if (sector == "x") return true;
+    return false;
   }
 })
 
